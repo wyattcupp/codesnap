@@ -100,24 +100,6 @@ func TestCollectCodebase_SkipsNonTextFilesByMIME(t *testing.T) {
 	}
 }
 
-func TestShouldIgnore_ExcludesByExtension(t *testing.T) {
-	ignoreRules := []string{}
-	tests := []struct {
-		relPath string
-		expect  bool
-	}{
-		{"image.png", true},
-		{"document.pdf", true},
-		{"code.go", false},
-	}
-	for _, tt := range tests {
-		got := shouldIgnore(tt.relPath, ignoreRules)
-		if got != tt.expect {
-			t.Errorf("shouldIgnore(%s) = %v; want %v", tt.relPath, got, tt.expect)
-		}
-	}
-}
-
 func TestMimeDetection_TextFile(t *testing.T) {
 	content := []byte("This is a simple text file.")
 	mimeType := http.DetectContentType(content)

@@ -45,3 +45,4 @@ Thumbs.db
 # Compiled codebase binary
 codebase
 
+.codebase_ignore
