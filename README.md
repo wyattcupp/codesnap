@@ -27,6 +27,7 @@
   - Built-in defaults for common ignore patterns
   - Support for `.codebase_ignore` file
   - Additional CLI ignore flags
+- Token counts
 
 ## Installation
 
@@ -99,10 +100,14 @@ The syntax follows `.gitignore` conventions:
 ## Output Format
 The tool generates markdown with each file formatted as:
 
-**path/to/file.ext**
-```
+\*\*path/to/file.ext\*\*
+
+\`\`\`
+
 // your file contents
-```
+
+\`\`\`
+
 
 ## License
 MIT, use away

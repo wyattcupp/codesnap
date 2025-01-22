@@ -53,7 +53,7 @@ You can save that markdown to a file or copy it directly to your clipboard.`,
 				if err := clipboard.WriteClipboard(result); err != nil {
 					return fmt.Errorf("failed copying to clipboard: %v", err)
 				}
-				log.Println("Codebase context copied to clipboard successfully!\n\nTokens:", tokenCount)
+				fmt.Println("Codebase context copied to clipboard successfully!\n\nTokens:", tokenCount)
 			}
 
 			// output to file
@@ -65,7 +65,7 @@ You can save that markdown to a file or copy it directly to your clipboard.`,
 			}
 
 			if !copyToClip && outputFile == "" {
-				log.Println("No output method selected. Use --help to see options.")
+				fmt.Println("No output method selected. Use --help to see options.")
 			}
 			return nil
 		},
