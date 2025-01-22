@@ -27,7 +27,7 @@
   - Built-in defaults for common ignore patterns
   - Support for `.codesnap_ignore` file
   - Additional CLI ignore flags
-- Token counts
+- Token count (Note: This is based off tokenization used for gpt-4o, adjust accordingly for other models)
 
 ## Installation
 
