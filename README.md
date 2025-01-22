@@ -1,6 +1,6 @@
-# codebase
+# codesnap
 
-`codebase` is a command-line tool (written in Go) for aggregating all code files in a project into a single Markdown block, suitable for providing “context” to an LLM (Large Language Model). This helps you easily copy & paste your entire project’s relevant source files into a prompt or a separate context window. I hated the process of doing this when my LLM use was heavy so I built this.
+`codesnap` is a command-line tool (written in Go) for aggregating all code files in a project into a single Markdown block, suitable for providing “context” to an LLM (Large Language Model). This helps you easily copy & paste your entire project’s relevant source files into a prompt or a separate context window. I hated the process of doing this when my LLM use was heavy so I built this.
 
 ## Contents
 - [Features](#features)
@@ -25,7 +25,7 @@
   - Excludes common build artifacts
 - 🎛 Flexible ignore patterns:
   - Built-in defaults for common ignore patterns
-  - Support for `.codebase_ignore` file
+  - Support for `.codesnap_ignore` file
   - Additional CLI ignore flags
 - Token counts
 
@@ -33,27 +33,27 @@
 
 ```bash
 # Install directly with Go
-go install github.com/wyattcupp/codebase-tool@latest
+go install github.com/wyattcupp/codesnap@latest
 
 # Or clone and build
-git clone https://github.com/wyattcupp/codebase-tool.git
-cd codebase-tool
+git clone https://github.com/wyattcupp/codesnap.git
+cd codesnap
 go build
 ```
 
 ## Usage
 ```bash
 # Basic usage (outputs to clipboard)
-codebase -c
+codesnap -c
 
 # Save to file instead
-codebase -o codebase.md
+codesnap -o codebase.md
 
 # Scan specific directory
-codebase -d /path/to/project -c
+codesnap -d /path/to/project -c
 
 # Add additional ignore patterns
-codebase -i "tests/" -i "*.tmp" -c
+codesnap -i "tests/" -i "*.tmp" -c
 ```
 
 ### Command Options
@@ -61,7 +61,7 @@ codebase -i "tests/" -i "*.tmp" -c
 Flags:
   -c, --clipboard       Copy output to clipboard
   -d, --dir string      Target directory to scan (default: current directory)
-  -h, --help           Help for codebase
+  -h, --help           Help for codesnap
   -i, --ignore strings  Additional patterns to ignore
   -o, --out string     Output file path for markdown
   ```
@@ -78,7 +78,7 @@ The tool comes with sensible defaults to ignore:
 - Common metadata files
 
 ### Custom Ignores
-Create a `.codebase_ignore` file in your project root:
+Create a `.codesnap_ignore` file in your project root:
 ```.gitignore
 # Ignore specific files
 secret.txt

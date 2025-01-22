@@ -19,10 +19,10 @@ var (
 	targetDir   string
 	ignoreDirs  []string
 	codebaseCmd = &cobra.Command{
-		Use:   "codebase",
+		Use:   "codesnap",
 		Short: "Collect codebase context and output to a markdown file or clipboard.",
-		Long: `codebase is a CLI tool that recursively reads your project's source files,
-skips files/directories listed in .codebase_ignore (and those passed via flags),
+		Long: `codesnap is a CLI tool that recursively reads your project's source files,
+skips files/directories listed in .codesnap_ignore (and those passed via flags),
 and aggregates them into a single markdown-formatted string for usage in LLMs.
 You can save that markdown to a file or copy it directly to your clipboard.`,
 		Args: cobra.NoArgs,
@@ -90,5 +90,5 @@ func init() {
 	codebaseCmd.Flags().StringVarP(&targetDir, "dir", "d", "", "Target directory to scan (defaults to current working directory).")
 	codebaseCmd.Flags().StringVarP(&outputFile, "out", "o", "", "Markdown file to write the aggregated code context to.")
 	codebaseCmd.Flags().BoolVarP(&copyToClip, "clipboard", "c", false, "Copy the aggregated code context to clipboard (overwrites it!).")
-	codebaseCmd.Flags().StringArrayVarP(&ignoreDirs, "ignore", "i", []string{}, "Additional directories/files to ignore (besides .codebase_ignore).")
+	codebaseCmd.Flags().StringArrayVarP(&ignoreDirs, "ignore", "i", []string{}, "Additional directories/files to ignore (besides .codesnap_ignore).")
 }

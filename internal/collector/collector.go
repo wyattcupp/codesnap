@@ -58,7 +58,7 @@ var DefaultPatterns = []string{
 	"**/test-results/", "**/test-reports/",
 	"**/public/assets/", "**/static/assets/",
 	"**/logs/", "**/log/", "**/tmp/", "**/temp/",
-	"**/data/", "**/fixtures/", "**/uploads/", "**/.gitignore", "**/.codebase_ignore",
+	"**/data/", "**/fixtures/", "**/uploads/", "**/.gitignore", "**/.codesnap_ignore",
 	"**/.Trash/", "**/$RECYCLE.BIN/", "**/System Volume Information/",
 	"**/go.mod", "**/go.sum", "**/Gopkg.lock", "**/Gopkg.toml",
 
@@ -87,7 +87,7 @@ func GetTokenCount(text, model string) (int, error) {
 
 func CollectCodebase(targetDir string, extraIgnores []string) (string, int64, error) {
 	// 1. try to load lines from .codebase_ignore
-	codebaseIgnoreFile := filepath.Join(targetDir, ".codebase_ignore")
+	codebaseIgnoreFile := filepath.Join(targetDir, ".codesnap_ignore")
 	userLines := []string{}
 	if data, err := os.ReadFile(codebaseIgnoreFile); err == nil {
 		scanner := bufio.NewScanner(strings.NewReader(string(data)))
