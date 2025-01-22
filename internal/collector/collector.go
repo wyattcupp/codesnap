@@ -10,6 +10,7 @@ import (
 	"path/filepath"
 	"strings"
 
+	tiktoken "github.com/pkoukk/tiktoken-go"
 	"github.com/wyattcupp/codebase-tool/internal/ignore"
 )
 
@@ -74,7 +75,17 @@ var DefaultPatterns = []string{
 	"**/LICENSE.*", "**/README.*", "**/CONTRIBUTING.*",
 }
 
-func CollectCodebase(targetDir string, extraIgnores []string) (string, error) {
+func GetTokenCount(text, model string) (int, error) {
+	encoding, err := tiktoken.EncodingForModel(model)
+	if err != nil {
+		return 0, fmt.Errorf("failed to get encoding for model %s: %v", model, err)
+	}
+
+	tokens := encoding.Encode(text, nil, nil)
+	return len(tokens), nil
+}
+
+func CollectCodebase(targetDir string, extraIgnores []string) (string, int64, error) {
 	// 1. try to load lines from .codebase_ignore
 	codebaseIgnoreFile := filepath.Join(targetDir, ".codebase_ignore")
 	userLines := []string{}
@@ -148,8 +159,13 @@ func CollectCodebase(targetDir string, extraIgnores []string) (string, error) {
 	})
 
 	if err != nil {
-		return "", err
+		return "", 0, err
 	}
 
-	return sb.String(), nil
+	result := sb.String()
+
+	// tokenizer to retrieve token count
+	tokenCount, err := GetTokenCount(result, "gpt-4o")
+
+	return sb.String(), int64(tokenCount), nil
 }

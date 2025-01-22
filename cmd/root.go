@@ -5,6 +5,7 @@ import (
 	"log"
 	"os"
 	"path/filepath"
+	"regexp"
 
 	"github.com/wyattcupp/codebase-tool/internal/clipboard"
 	"github.com/wyattcupp/codebase-tool/internal/collector"
@@ -41,7 +42,8 @@ You can save that markdown to a file or copy it directly to your clipboard.`,
 			}
 
 			// collect the entire codebase
-			result, err := collector.CollectCodebase(targetDir, ignoreDirs)
+			result, tokenCount, err := collector.CollectCodebase(targetDir, ignoreDirs)
+
 			if err != nil {
 				return fmt.Errorf("failed collecting codebase: %v", err)
 			}
@@ -51,7 +53,7 @@ You can save that markdown to a file or copy it directly to your clipboard.`,
 				if err := clipboard.WriteClipboard(result); err != nil {
 					return fmt.Errorf("failed copying to clipboard: %v", err)
 				}
-				log.Println("Codebase context copied to clipboard successfully!")
+				log.Println("Codebase context copied to clipboard successfully!\n\nTokens:", tokenCount)
 			}
 
 			// output to file
@@ -59,7 +61,7 @@ You can save that markdown to a file or copy it directly to your clipboard.`,
 				if err := os.WriteFile(outputFile, []byte(result), 0644); err != nil {
 					return fmt.Errorf("failed writing to markdown file: %v", err)
 				}
-				log.Printf("Codebase context saved to %s\n", outputFile)
+				log.Printf("Codebase context saved to %s\n\nTokens:%v", outputFile, tokenCount)
 			}
 
 			if !copyToClip && outputFile == "" {
@@ -69,6 +71,16 @@ You can save that markdown to a file or copy it directly to your clipboard.`,
 		},
 	}
 )
+
+// EstimateTokens provides a ceiling estimate of the token count for a given text.
+func EstimateTokens(text string) int {
+	// Use a regex to approximate tokenization (split on spaces and punctuation).
+	re := regexp.MustCompile(`\w+|[^\w\s]`)
+	tokens := re.FindAllString(text, -1)
+
+	// Return the length of the tokens slice as the token count.
+	return len(tokens)
+}
 
 func Execute() error {
 	return codebaseCmd.Execute()
