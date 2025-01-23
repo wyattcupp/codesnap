@@ -91,14 +91,14 @@ local/
 
 The syntax follows `.gitignore` conventions:
 
-- Use # for comments
-- * matches any string except /
-- ** matches zero or more directories
-- Trailing / matches directories only
-- Leading ! negates the pattern
+- Use `#` for comments
+- `*` matches any string except `/`
+- `**` matches zero or more directories
+- Trailing `/` matches directories only
+- Leading `!` negates the pattern
 
 ## Output Format
-The tool generates markdown with each file formatted as:
+The tool generates markdown with each file, either copied to clipboard or to an output file, with format:
 
 \*\*path/to/file.ext\*\*
 
@@ -108,6 +108,10 @@ The tool generates markdown with each file formatted as:
 
 \`\`\`
 
+The corresponding terminal output shows a success message, along with token count:
+```
+Token count: {total tokens in output}
+```
 
 ## License
 MIT, use away
