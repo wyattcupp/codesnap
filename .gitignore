@@ -43,6 +43,5 @@ Thumbs.db
 .env
 
 # Compiled codebase binary
-codebase
-
-.codebase_ignore
+codesnap
+.codesnap_ignore

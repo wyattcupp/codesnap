@@ -163,9 +163,11 @@ func CollectCodebase(targetDir string, extraIgnores []string) (string, int64, er
 	}
 
 	result := sb.String()
-
-	// tokenizer to retrieve token count
 	tokenCount, err := GetTokenCount(result, "gpt-4o")
 
-	return sb.String(), int64(tokenCount), nil
+	if err != nil {
+		return result, -1, fmt.Errorf("failed to get token count: %v", err)
+	}
+
+	return result, int64(tokenCount), nil
 }
