@@ -106,6 +106,7 @@ func CollectCodebase(targetDir string, extraIgnores []string) (string, int64, er
 
 	var sb strings.Builder
 
+	sb.WriteString("<codebase>\n")
 	// 3. walk the directory
 	err := filepath.WalkDir(targetDir, func(path string, d fs.DirEntry, walkErr error) error {
 		if walkErr != nil {
@@ -161,6 +162,7 @@ func CollectCodebase(targetDir string, extraIgnores []string) (string, int64, er
 	if err != nil {
 		return "", 0, err
 	}
+	sb.WriteString("</codebase>")
 
 	result := sb.String()
 	tokenCount, err := GetTokenCount(result, "gpt-4o")
