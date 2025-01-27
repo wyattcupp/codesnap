@@ -68,7 +68,7 @@ Flags:
 
 ## Ignore Patterns
 ### Default Ignores
-The tool comes with sensible defaults to ignore:
+The tool comes with sensible defaults to ignore (to see the complete list, see the [code](/internal/collector/collector.go)):
 
 - Version control directories (.git/, .svn/)
 - Build artifacts (dist/, build/, *.exe)
