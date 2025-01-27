@@ -100,13 +100,19 @@ The syntax follows `.gitignore` conventions:
 ## Output Format
 The tool generates markdown with each file, either copied to clipboard or to an output file, with format:
 
-\*\*path/to/file.ext\*\*
+````
+<codebase>
 
-\`\`\`
+**path/to/file.ext**
+
+```
 
 // your file contents
 
-\`\`\`
+```
+
+</codebase>
+````
 
 The corresponding terminal output shows a success message, along with token count:
 ```
