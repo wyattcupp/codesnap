@@ -11,7 +11,7 @@ import (
 	"strings"
 
 	tiktoken "github.com/pkoukk/tiktoken-go"
-	"github.com/wyattcupp/codebase-tool/internal/ignore"
+	"github.com/wyattcupp/codesnap/internal/ignore"
 )
 
 var DefaultPatterns = []string{

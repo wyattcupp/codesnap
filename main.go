@@ -3,7 +3,7 @@ package main
 import (
 	"log"
 
-	"github.com/wyattcupp/codebase-tool/cmd"
+	"github.com/wyattcupp/codesnap/cmd"
 )
 
 func main() {

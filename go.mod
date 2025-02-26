@@ -1,4 +1,4 @@
-module github.com/wyattcupp/codebase-tool
+module github.com/wyattcupp/codesnap
 
 go 1.22.0
 

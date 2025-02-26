@@ -7,8 +7,8 @@ import (
 	"path/filepath"
 	"regexp"
 
-	"github.com/wyattcupp/codebase-tool/internal/clipboard"
-	"github.com/wyattcupp/codebase-tool/internal/collector"
+	"github.com/wyattcupp/codesnap/internal/clipboard"
+	"github.com/wyattcupp/codesnap/internal/collector"
 
 	"github.com/spf13/cobra"
 )
