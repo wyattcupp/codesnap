@@ -72,7 +72,7 @@ var DefaultPatterns = []string{
 
 	// Common metadata files
 	"**/LICENSE", "**/NOTICE", "**/AUTHORS", "**/CONTRIBUTORS", "**/CHANGELOG",
-	"**/LICENSE.*", "**/README.*", "**/CONTRIBUTING.*",
+	"**/LICENSE.*", "**/CONTRIBUTING.*",
 }
 
 func GetTokenCount(text, model string) (int, error) {
@@ -85,7 +85,7 @@ func GetTokenCount(text, model string) (int, error) {
 	return len(tokens), nil
 }
 
-func CollectCodebase(targetDir string, extraIgnores []string) (string, int64, error) {
+func CollectCodebase(targetDir string, extraIgnores []string) (string, int64, []string, error) {
 	// 1. try to load lines from .codebase_ignore
 	codebaseIgnoreFile := filepath.Join(targetDir, ".codesnap_ignore")
 	userLines := []string{}
@@ -105,6 +105,7 @@ func CollectCodebase(targetDir string, extraIgnores []string) (string, int64, er
 	)
 
 	var sb strings.Builder
+	var ignoredFiles []string // Track ignored files
 
 	sb.WriteString("<codebase>\n")
 	// 3. walk the directory
@@ -118,6 +119,11 @@ func CollectCodebase(targetDir string, extraIgnores []string) (string, int64, er
 		// 4. check if path is ignored
 		isIgnored := ignorePatterns.MatchesPath(relPath)
 		if isIgnored {
+			// Add to ignored files list if it's not a directory
+			if !d.IsDir() {
+				ignoredFiles = append(ignoredFiles, relPath)
+			}
+
 			if d.IsDir() {
 				return filepath.SkipDir
 			}
@@ -143,6 +149,7 @@ func CollectCodebase(targetDir string, extraIgnores []string) (string, int64, er
 		contentType := http.DetectContentType(buffer[:n])
 		f.Close()
 		if !strings.HasPrefix(contentType, "text/") {
+			ignoredFiles = append(ignoredFiles, relPath) // Add binary files to ignored list
 			return nil
 		}
 
@@ -160,7 +167,7 @@ func CollectCodebase(targetDir string, extraIgnores []string) (string, int64, er
 	})
 
 	if err != nil {
-		return "", 0, err
+		return "", 0, nil, err
 	}
 	sb.WriteString("</codebase>")
 
@@ -168,8 +175,8 @@ func CollectCodebase(targetDir string, extraIgnores []string) (string, int64, er
 	tokenCount, err := GetTokenCount(result, "gpt-4o")
 
 	if err != nil {
-		return result, -1, fmt.Errorf("failed to get token count: %v", err)
+		return result, -1, ignoredFiles, fmt.Errorf("failed to get token count: %v", err)
 	}
 
-	return result, int64(tokenCount), nil
+	return result, int64(tokenCount), ignoredFiles, nil
 }

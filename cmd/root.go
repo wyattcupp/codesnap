@@ -18,6 +18,7 @@ var (
 	copyToClip  bool
 	targetDir   string
 	ignoreDirs  []string
+	verbose     bool
 	codebaseCmd = &cobra.Command{
 		Use:   "codesnap",
 		Short: "Collect codebase context and output to a markdown file or clipboard.",
@@ -42,10 +43,19 @@ You can save that markdown to a file or copy it directly to your clipboard.`,
 			}
 
 			// collect the entire codebase
-			result, tokenCount, err := collector.CollectCodebase(targetDir, ignoreDirs)
+			result, tokenCount, ignoredFiles, err := collector.CollectCodebase(targetDir, ignoreDirs)
 
 			if err != nil {
 				return fmt.Errorf("failed collecting codebase: %v", err)
+			}
+
+			// If verbose mode is enabled, print the ignored files
+			if verbose && len(ignoredFiles) > 0 {
+				fmt.Println("\nIgnored files:")
+				for _, file := range ignoredFiles {
+					fmt.Println("  -", file)
+				}
+				fmt.Println("\n")
 			}
 
 			// copy to clipboard
@@ -67,6 +77,7 @@ You can save that markdown to a file or copy it directly to your clipboard.`,
 			if !copyToClip && outputFile == "" {
 				fmt.Println("No output method selected. Use --help to see options.")
 			}
+
 			return nil
 		},
 	}
@@ -91,4 +102,5 @@ func init() {
 	codebaseCmd.Flags().StringVarP(&outputFile, "out", "o", "", "Markdown file to write the aggregated code context to.")
 	codebaseCmd.Flags().BoolVarP(&copyToClip, "clipboard", "c", false, "Copy the aggregated code context to clipboard (overwrites it!).")
 	codebaseCmd.Flags().StringArrayVarP(&ignoreDirs, "ignore", "i", []string{}, "Additional directories/files to ignore (besides .codesnap_ignore).")
+	codebaseCmd.Flags().BoolVarP(&verbose, "verbose", "v", false, "Print out all ignored files after running.")
 }
