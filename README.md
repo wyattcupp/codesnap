@@ -64,6 +64,7 @@ Flags:
   -h, --help           Help for codesnap
   -i, --ignore strings  Additional patterns to ignore
   -o, --out string     Output file path for markdown
+  -v, --verbose        Show files that were ignored
   ```
 
 ## Ignore Patterns
